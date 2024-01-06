@@ -87,6 +87,13 @@ export class UserService {
       throw new InternalServerErrorException('Something went wrong');
     }
   }
+
+
+  async getUserById(userId: string): Promise<User | null> {
+    return this.db.user.findUnique({
+      where: { id: userId },
+    });
+  }
   
   }
   

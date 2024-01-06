@@ -10,7 +10,7 @@ class CreateUserDto {
 
   
 
-  hash: string; // Assuming you want to include the hash field
+  hash: string; 
 
   constructor(username: string, email: string, hash: string) {
     this.username = username;

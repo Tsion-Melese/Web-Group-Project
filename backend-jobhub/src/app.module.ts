@@ -3,15 +3,19 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { PrismaModule } from './prisma/prisma.module';
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule } from '@nestjs/config';
+import { JobModule } from './job/job.module';
+import { ScheduleModule } from '@nestjs/schedule'; 
 
 @Module({
-  imports: [UserModule, PrismaModule,ConfigModule.forRoot({ isGlobal: true }),],
+  imports: [
+    UserModule,
+    PrismaModule,
+    ConfigModule.forRoot({ isGlobal: true }),
+    JobModule,
+    ScheduleModule.forRoot(), 
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
-
-
-
-

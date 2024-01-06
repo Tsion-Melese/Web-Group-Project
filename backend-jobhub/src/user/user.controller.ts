@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, InternalServerErrorException, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, InternalServerErrorException, NotFoundException, Param, Patch, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { GetUser } from './decorator/get-user.decorator';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -38,7 +38,7 @@ async getAllUsers(): Promise<User[]> {
 async deleteUser(@Param('id') userId: string) {
   try {
     const result = await this.userService.deleteUser(userId);
-    return result; // You can return a success message or any relevant information
+    return result;
   } catch (error) {
     console.error('Error deleting user:', error);
     return { error: 'Something went wrong' };
@@ -49,6 +49,17 @@ async deleteUser(@Param('id') userId: string) {
 @Patch(':id')
 updateUser(@Param('id') userId: string, @Body() dto: UpdateUserDto) {
   return this.userService.updateUser(userId, dto);
+}
+
+@Get(':id')
+async getUserById(@Param('id') userId: string): Promise<User> {
+  const user = await this.userService.getUserById(userId);
+
+  if (!user) {
+    throw new NotFoundException(`User with ID ${userId} not found`);
+  }
+
+  return user;
 }
 
 
